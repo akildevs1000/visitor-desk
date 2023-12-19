@@ -528,10 +528,16 @@ export default {
       this.loading = true;
 
       this.$axios
-        .post(
-          `https://backend.mytime2cloud.com/api/visitor-self-register`,
-          this.payload
-        )
+        .post(`https://sdk.mytime2cloud.com/Person/AddRange`, {
+          personList: [
+            {
+              name: "francis",
+              userCode: 5656,
+              expiry: "2023-12-17 23:59:59",
+            },
+          ],
+          snList: ["OX-8862021010076"],
+        })
         .then(({ data }) => {
           this.loading = false;
           this.dialog = true;
@@ -540,19 +546,21 @@ export default {
           setTimeout(() => (this.dialog = false), 3000);
           this.reset();
         })
-        .catch(({ response }) => {
-          this.loading = false;
-          this.dialog = true;
-          this.response_image = "/fail.png";
+        .catch(e => {
+            console.log(e);
+        //   console.log(response);
+        //   this.loading = false;
+        //   this.dialog = true;
+        //   this.response_image = "/fail.png";
 
-          if (!response) return false;
+        //   if (!response) return false;
 
-          let { status, data } = response;
+        //   let { status, data } = response;
 
-          if (status && status == 422) {
-            this.errors = data.errors;
-            return;
-          }
+        //   if (status && status == 422) {
+        //     this.errors = data.errors;
+        //     return;
+        //   }
         });
     },
   },
